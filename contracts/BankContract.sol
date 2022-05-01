@@ -7,8 +7,8 @@ contract Bank {
     string public bankName;
     mapping(address => uint256) public balanceOf;
 
-    event withdrawal(address indexed to, address indexed from, uint256 indexed amount);
-    event deposit(address indexed from, uint256 indexed amount);
+    event Withdrawal(address indexed to, address indexed from, uint256 indexed amount);
+    event Deposit(address indexed from, uint256 indexed amount);
 
     modifier onlyOwner() {
         require(bankOwner == msg.sender, "Only the Bank Owner is authorized");
@@ -22,7 +22,7 @@ contract Bank {
     function depositMoney() public payable {
         require(msg.value != 0, "You need to deposit some amount of money!");
         balanceOf[msg.sender] += msg.value;
-        emit deposit(msg.sender, msg.value);
+        emit Deposit(msg.sender, msg.value);
     }
 
     function setBankName(string memory _name) external onlyOwner {
@@ -38,7 +38,7 @@ contract Bank {
         balanceOf[msg.sender] -= _total;
         (bool success, ) = _to.call{value:_total}("");
         require(success, "withdraw money failed.");
-        emit withdrawal(_to, msg.sender, _total);
+        emit Withdrawal(_to, msg.sender, _total);
     }
 
     function getbalanceOf() external view returns (uint256) {

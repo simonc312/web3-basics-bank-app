@@ -64,6 +64,10 @@ describe("Bank Contract", function () {
         const depositAmount = ethers.utils.parseEther("1");
         const depositTx = await contract.depositMoney({ value: depositAmount });
 
+        await expect(depositTx)
+            .to.emit(contract, "Deposit")
+            .withArgs(owner.address, depositAmount);
+
         // wait until the transaction is mined
         await depositTx.wait();
 
@@ -96,7 +100,12 @@ describe("Bank Contract", function () {
         await depositTx.wait();
         expect(await contract.connect(addr1).getbalanceOf()).to.equal(depositAmount);
         expect(await contract.getBankBalance()).to.equal(depositAmount);
-        const withdrawTx = await contract.connect(addr1).withdrawMoney(addr1.address, withdrawAmount);
+        const withdrawTx = await contract.connect(addr1).withdrawMoney(addr2.address, withdrawAmount);
+
+        await expect(withdrawTx)
+            .to.emit(contract, "Withdrawal")
+            .withArgs(addr2.address, addr1.address, withdrawAmount);
+
         await withdrawTx.wait();
         expect(await contract.connect(addr1).getbalanceOf()).to.equal(emptyAmount);
         expect(await contract.getBankBalance()).to.equal(emptyAmount);
