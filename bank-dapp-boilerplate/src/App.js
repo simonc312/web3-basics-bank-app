@@ -13,7 +13,7 @@ function App() {
   const [error, setError] = useState(null);
 
   //TODO: update contract address as needed
-  const contractAddress = '0x15BdAe0B9510604696356D2039BBEe2EF9882518';
+  const contractAddress = '0x35cd62C0b6DeA1D0e11f8B13093567Ee8AbecD75';
   const contractABI = abi.abi;
 
   
