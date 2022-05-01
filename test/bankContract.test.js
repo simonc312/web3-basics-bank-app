@@ -56,7 +56,7 @@ describe("Bank Contract", function () {
 
         const newBankName = "Another Bank of Banking";
 
-        await expect(contract.connect(addr1).setBankName(newBankName)).to.be.revertedWith("You must be the owner to set the name of the bank");;
+        await expect(contract.connect(addr1).setBankName(newBankName)).to.be.revertedWith("Only the Bank Owner is authorized");;
     });
 
     it("Should allow deposit of ether", async function () {
@@ -85,7 +85,7 @@ describe("Bank Contract", function () {
 
         expect(await contract.getBankBalance()).to.equal(ethers.utils.parseEther("2"));
 
-        await expect(contract.connect(addr1).getBankBalance()).to.revertedWith("You must be the owner of the bank to see all balances.");
+        await expect(contract.connect(addr1).getBankBalance()).to.revertedWith("Only the Bank Owner is authorized");
     })
 
     it("Should allow money from your deposited balance to be withdrawn", async function () {
